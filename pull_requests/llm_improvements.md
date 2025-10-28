@@ -1,0 +1,3 @@
+# LLM Improvements
+
+This PR adds a minimal RAG pipeline (`src/rag/index.js`), standardized prompt templates (`src/prompt_templates.js`), a conversation memory manager (`src/memory/memoryManager.js`), a feedback UI (`public/feedback.html`), documentation (`docs/LLM_IMPROVEMENTS.md`) and basic tests (`tests/llm/llm.spec.js`). It also includes instructions and next steps for integrating embeddings/vector store, enabling fine-tuning, and setting up an `/api/feedback` endpoint. This is intended to make the LLM more coherent, factual and conversational; please review and adapt provider configurations (OpenAI/Pinecone or HF/FAISS) before merging.
