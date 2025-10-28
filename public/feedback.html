@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Feedback LLM</title>
+    <style>button{margin:0 4px;padding:6px 10px}</style>
+  </head>
+  <body>
+    <div>
+      <p>Cette réponse t'a-t-elle aidé ?</p>
+      <button id="up">👍 Oui</button>
+      <button id="down">👎 Non</button>
+      <textarea id="comment" placeholder="Optionnel : corrige la réponse..." rows="3" cols="40"></textarea>
+    </div>
+    <script>
+      async function sendFeedback(ok) {
+        const comment = document.getElementById('comment').value;
+        const payload = { ok, comment, ts: new Date().toISOString(), page: location.href };
+        // Si tu as un backend, envoie POST à /api/feedback ; sinon stocke localement
+        try {
+          await fetch('/api/feedback', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+          alert('Merci pour ton feedback !');
+        } catch (e) {
+          // fallback localStorage
+          const fb = JSON.parse(localStorage.getItem('novamind_feedback') || '[]');
+          fb.push(payload);
+          localStorage.setItem('novamind_feedback', JSON.stringify(fb));
+          alert('Feedback enregistré localement (aucun backend configuré).');
+        }
+      }
+
+      document.getElementById('up').onclick = () => sendFeedback(true);
+      document.getElementById('down').onclick = () => sendFeedback(false);
+    </script>
+  </body>
+</html>
